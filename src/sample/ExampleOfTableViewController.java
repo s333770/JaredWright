@@ -41,11 +41,11 @@ public class ExampleOfTableViewController implements Initializable {
     /*
     THis method will allow the user to double click on a Cell and update the first name of the Person
      */
-    public void ChangeFirstNameCellEvent(TableColumn.CellEditEvent edittedCell){
+    public void changeFirstNameCellEvent(TableColumn.CellEditEvent edittedCell){
         Person personSelected=tableView.getSelectionModel().getSelectedItem(); // Tar det elementet du trykker på
         personSelected.setFirstName(edittedCell.getNewValue().toString());
     }
-    public void ChangeLastNameCellEvent(TableColumn.CellEditEvent edittedCell){
+    public void changeLastNameCellEvent(TableColumn.CellEditEvent edittedCell){
         Person personSelected=tableView.getSelectionModel().getSelectedItem(); // Tar det elementet du trykker på
         personSelected.setLastName(edittedCell.getNewValue().toString());
     }
@@ -86,17 +86,15 @@ public class ExampleOfTableViewController implements Initializable {
         ObservableList<Person> selectedRows,allPeople;
         allPeople=tableView.getItems();
         //THis gives us the rows that were selected
-        selectedRows=tableView.ge
-        for(Person person:selectedRows){
-            allPeople.remove(person);
-        }
+
+
 
     }
 
     /*
     This method will create a new Person and add it to the table
      */
-    public void NewPersonButtonPushed(){
+    public void newPersonButtonPushed(){
         Person newPerson=new Person(firstNameTextField.getText(),lastNameTextField.getText(),birthdayPicker.getValue());
 
         //Få alle verdiene fra tabellen som en liste, så kan vi legge til Person
