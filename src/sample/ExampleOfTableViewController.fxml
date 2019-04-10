@@ -39,6 +39,7 @@
                     <children>
                         <Button mnemonicParsing="false" onAction="#newPersonButtonPushed" prefWidth="175.0" text="Add New Person" />
                         <Button mnemonicParsing="false" onAction="#deleteButtonPushed" prefWidth="175.0" text="Delete Person(s) " />
+                  <Button mnemonicParsing="false" text="Detailed Person View" />
                     </children>
                 </HBox>
             </children>

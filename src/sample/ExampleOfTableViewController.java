@@ -86,7 +86,10 @@ public class ExampleOfTableViewController implements Initializable {
         ObservableList<Person> selectedRows,allPeople;
         allPeople=tableView.getItems();
         //THis gives us the rows that were selected
-
+        selectedRows= tableView.getSelectionModel().getSelectedItems();
+        for (Person person: selectedRows){
+            allPeople.remove(person);
+        }
 
 
     }
