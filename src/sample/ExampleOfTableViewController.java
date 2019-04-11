@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 
@@ -38,6 +39,11 @@ public class ExampleOfTableViewController implements Initializable {
     @FXML private TextField lastNameTextField;
     @FXML private DatePicker birthdayPicker;
 
+    // Vi skal nå gjøre det mulig å gjøre at man ikke kan klikke på detailed person view button uten å først ha
+    //valgt en mann
+    @FXML private Button detailedPersonViewButton;
+
+
     /*
     THis method will allow the user to double click on a Cell and update the first name of the Person
      */
@@ -50,11 +56,32 @@ public class ExampleOfTableViewController implements Initializable {
         personSelected.setLastName(edittedCell.getNewValue().toString());
     }
 
+    /*
+    Her skal vi kunne enable button når person er valgt fra tabell:
+     */
+    public void userClickedOnTable(){
+        this.detailedPersonViewButton.setDisable(false);
+    }
+
 
 
     public void changeScreenButtonPushed(ActionEvent event) throws IOException {
         Parent tableViewParent= FXMLLoader.load(getClass().getResource("/sample/sample.fxml"));
         Scene tableViewScene = new Scene(tableViewParent);
+
+        //This line gets the Stage information
+        Stage window=(Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(tableViewScene);
+        window.show();
+    }
+    /*When this method is called it will pass the selected Person object to a detailed view*/
+    public void changeSceneToDetailedPersonView(ActionEvent event) throws IOException {
+        FXMLLoader loader= new FXMLLoader();
+        loader.setLocation(getClass().getResource("/sample/PersonView.fxml"));
+        Parent tableViewParent=loader.load();
+        Scene tableViewScene = new Scene(tableViewParent);
+        PersonViewController controller=loader.getController(); // Får den andre kontrolleren
+        controller.initData(tableView.getSelectionModel().getSelectedItem());
 
         //This line gets the Stage information
         Stage window=(Stage)((Node)event.getSource()).getScene().getWindow();
@@ -78,6 +105,9 @@ public class ExampleOfTableViewController implements Initializable {
 
         //THis will allow the table to select multiple rows at once
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        //Disable the detailed Person View button and the row selected
+        this.detailedPersonViewButton.setDisable(true);
     }
     /*
     This method will remove the selected row(s) from the Table
@@ -107,10 +137,10 @@ public class ExampleOfTableViewController implements Initializable {
     //This method will return an Observable List of Peolpe objects
     public ObservableList<Person> getPeople(){
         ObservableList<Person> people= FXCollections.observableArrayList();
-        people.add(new Person("Frank","Sinatra", LocalDate.of(1915, Month.DECEMBER,12)));
+        people.add(new Person("Frank","Sinatra", LocalDate.of(1915, Month.DECEMBER,12),new Image("FrankSinatra.jpg")));
         people.add(new Person("Rebecca","Fergusson", LocalDate.of(1986, Month.JULY,21)));
         people.add(new Person("Mr.","T", LocalDate.of(1952, Month.MAY,21)));
-        return people;
 
+        return people;
     }
 }
